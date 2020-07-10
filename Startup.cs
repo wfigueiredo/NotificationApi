@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -69,7 +67,20 @@ namespace NotificationApi
             // clients
             services.AddSingleton<ISqsClient, SqsClient>();
             services.AddSingleton<ISnsClient, SnsClient>();
-            services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>();
+            services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>(x =>
+            {
+                var region = "sa-east-1";
+                var loggerFactory = LoggerFactory.Create(builder =>
+                {
+                    builder
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning)
+                    .AddConsole()
+                    .AddEventLog();
+                });
+                var logger = loggerFactory.CreateLogger<SecretsManagerClient>();
+                return new SecretsManagerClient(region, logger);
+            });
             services.AddSingleton<ISecretsManagerFacade, SecretsManagerFacade>();
             services.AddSingleton<ICredentialsFacade<AwsCredentials>, AWSCredentialsFacade>();
 
