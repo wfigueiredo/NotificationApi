@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -65,22 +66,10 @@ namespace NotificationApi
             services.AddSingleton<IBusSubscriber, GameBusSubscriber>();
 
             // clients
+            services.AddSingleton(RegionEndpoint.SAEast1);
             services.AddSingleton<ISqsClient, SqsClient>();
             services.AddSingleton<ISnsClient, SnsClient>();
-            services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>(x =>
-            {
-                var region = "sa-east-1";
-                var loggerFactory = LoggerFactory.Create(builder =>
-                {
-                    builder
-                    .AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning)
-                    .AddConsole()
-                    .AddEventLog();
-                });
-                var logger = loggerFactory.CreateLogger<SecretsManagerClient>();
-                return new SecretsManagerClient(region, logger);
-            });
+            services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>();
             services.AddSingleton<ISecretsManagerFacade, SecretsManagerFacade>();
             services.AddSingleton<ICredentialsFacade<AwsCredentials>, AWSCredentialsFacade>();
 

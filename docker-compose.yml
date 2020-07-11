@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  notificationapi:
+    image: wfigueiredo/notificationapi:latest
+    container_name: notificationapi
+    env_file:
+     - notificationapi.env
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+     - "5001:80"
