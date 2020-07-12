@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NotificationApi.Domain.Model;
+using NotificationApi.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace NotificationApi.Infrastructure.Middleware
 {
     public class MessageMiddleware
     {
-        private ILogger<MessageMiddleware> _logger;
+        private readonly ILogger<MessageMiddleware> _logger;
         private readonly RequestDelegate _next;
 
         public MessageMiddleware(ILogger<MessageMiddleware> logger, RequestDelegate next)

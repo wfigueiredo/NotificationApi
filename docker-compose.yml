@@ -2,8 +2,8 @@ version: '3.5'
 
 services:
   notificationapi:
-    image: wfigueiredo/notificationapi:latest
     container_name: notificationapi
+    image: wfigueiredo/notificationapi:latest
     env_file:
      - notificationapi.env
     build:
@@ -11,3 +11,28 @@ services:
       dockerfile: ./Dockerfile
     ports:
      - "5001:80"
+     
+  postgres:
+    container_name: c_postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=notificationapi
+      - POSTGRES_USER=notificationapi
+      - POSTGRES_PASSWORD=notificationapi
+      - TZ='GMT-3'
+      - PGTZ='GMT-3'
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+ 
+       
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:
