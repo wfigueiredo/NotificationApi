@@ -11,27 +11,27 @@ namespace NotificationApi.Interfaces.Repository.Messages
 {
     public class MessageRepository : IMessageRepository
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
         public MessageRepository(DataContext context)
         {
-            _context = context;
+            _dataContext = context;
         }
 
         public async Task CreateAsync(Message message)
         {
-            await _context.Messages.AddAsync(message);
-            await _context.SaveChangesAsync();
+            await _dataContext.Messages.AddAsync(message);
+            await _dataContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Message>> FindAllAsync()
         {
-            return await _context.Messages.ToListAsync();
+            return await _dataContext.Messages.ToListAsync();
         }
 
         public async Task<Message> FindByUniqueIdAsync(string uniqueId)
         {
-            return await _context.Messages
+            return await _dataContext.Messages
                 .FirstOrDefaultAsync(message => message.UniqueId == uniqueId);
         }
     }
