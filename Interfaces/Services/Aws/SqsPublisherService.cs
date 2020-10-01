@@ -25,7 +25,7 @@ namespace NotificationApi.Interfaces.Services.Aws
 
         public async Task Publish(MessageDto message)
         {
-            var queueId = GetQueueName(message.GroupId, message.Metadata.ComponentId);
+            var queueId = GetQueueName(message.GroupId, message.Metadata.queue);
             await _sqsClient.PublishAsync(queueId, message);
         }
 

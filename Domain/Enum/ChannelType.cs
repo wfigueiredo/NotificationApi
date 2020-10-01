@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace NotificationApi.Domain.Enum
 {
-    public enum DestinationType
+    public enum ChannelType
     {
         [Display(Name = "sqs")]
         Sqs,
 
         [Display(Name = "sns")]
         Sns,
+
+        [Display(Name = "masstransit")]
+        MassTransit,
 
         [Display(Name = "rabbit")]
         Rabbit

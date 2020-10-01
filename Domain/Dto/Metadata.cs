@@ -8,7 +8,7 @@ namespace NotificationApi.Domain.Dto
 {
     public class Metadata
     {
-        public DestinationType Destination { get; set; }
-        public string ComponentId { get; set; }
+        public ChannelType channel { get; set; }
+        public string queue { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace NotificationApi.Controllers
             try
             {
                 payload.Source = AppId;
-                await _service.CreateAsync(payload.ToDomain());
+                //await _service.CreateAsync(payload.ToDomain());
                 await _publishStrategyContext.Apply(payload);
                 return Accepted(new { status = "Message in transit" });
             }
